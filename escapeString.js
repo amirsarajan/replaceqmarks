@@ -1,4 +1,12 @@
 function escapeString(riddle) {
+    function findFirstAvailableLetter() {
+        let availLetterIndex = 0;
+        while (availLetterIndex < letters.length &&
+            unavailLetters.has(letters[availLetterIndex]))
+            availLetterIndex++;
+        return  letters[availLetterIndex];
+    }
+    
     const letters = Array.from('abcdefghijklmnopqrstuvwxyz');
     const unavailLetters = new Set();
 
@@ -19,15 +27,7 @@ function escapeString(riddle) {
         unavailLetters.clear();
         qmarkIndex = riddle.indexOf('?');
     }
-    return riddle;
-
-    function findFirstAvailableLetter() {
-        let availLetterIndex = 0;
-        while (availLetterIndex < letters.length &&
-            unavailLetters.has(letters[availLetterIndex]))
-            availLetterIndex++;
-        return  letters[availLetterIndex];
-    }
+    return riddle;   
 }
 
 module.exports = escapeString
