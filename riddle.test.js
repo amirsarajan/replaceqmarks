@@ -1,21 +1,27 @@
 function solution(riddle) {
-    if (riddle.indexOf('?') < 0)
-        return riddle;
+    let letters = Array.from('abcdefghijklmnopqrstuvwxyz');
+    let unavailableSet = new Set();
 
-    let lettersSet = new Set(Array.from('abcdefghijklmnopqrstuvwxyz'));
-    let qmarkIndex = riddle.indexOf("?");
+    let qmarkIndex = riddle.indexOf('?');
+    while (qmarkIndex >= 0) {
+        part1 = riddle.substring(0, qmarkIndex);
+        part2 = riddle.substring(qmarkIndex + 1);
 
-    part1 = riddle.substring(0, qmarkIndex);
-    part2 = qmarkIndex < riddle.length - 1 ?
-        riddle.substring(qmarkIndex + 1) : '';
+        if (part1.length > 0)
+            unavailableSet.add(part1[part1.length - 1]);
+        if (part2.length > 0)
+            unavailableSet.add(part2[0]);
 
-    if (part1.length > 0)
-        lettersSet.delete(part1[part1.length - 1]);
-    if (part2.length > 0)
-        lettersSet.delete(part2[0]);
-    let [firstAvailChar] = lettersSet;
-    let newRiddle = part1 + firstAvailChar + part2;
-    return solution(newRiddle);
+        let availableLetterIndex = 0;
+        while (availableLetterIndex < letters.length &&
+            unavailableSet.has(letters[availableLetterIndex])) availableLetterIndex++;       
+
+        riddle = part1 + letters[availableLetterIndex] + part2;
+
+        unavailableSet.clear();
+        qmarkIndex = riddle.indexOf('?');
+    }
+    return riddle;
 }
 
 test("returns riddle when no qmark", () => {
@@ -38,5 +44,5 @@ test("replace two distant qmark with non-adjacent charachetr", () => {
 })
 
 test("replaces ?? with ab", () => {
-    expect(solution("??")).toBe("ab");  
+    expect(solution("??")).toBe("ab");
 })
