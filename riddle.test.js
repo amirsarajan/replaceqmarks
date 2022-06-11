@@ -12,16 +12,22 @@ function solution(riddle) {
         if (part2.length > 0)
             unavailLetters.add(part2[0]);
 
-        let availLetterIndex = 0;
-        while (availLetterIndex < letters.length &&
-            unavailLetters.has(letters[availLetterIndex])) availLetterIndex++;       
+        let availLetter = findFirstAvailableLetter();       
 
-        riddle = part1 + letters[availLetterIndex] + part2;
+        riddle = part1 + availLetter + part2;
 
         unavailLetters.clear();
         qmarkIndex = riddle.indexOf('?');
     }
     return riddle;
+
+    function findFirstAvailableLetter() {
+        let availLetterIndex = 0;
+        while (availLetterIndex < letters.length &&
+            unavailLetters.has(letters[availLetterIndex]))
+            availLetterIndex++;
+        return  letters[availLetterIndex];
+    }
 }
 
 test("returns riddle when no qmark", () => {
