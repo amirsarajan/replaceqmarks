@@ -1,6 +1,6 @@
 function solution(riddle) {
-    let letters = Array.from('abcdefghijklmnopqrstuvwxyz');
-    let unavailableSet = new Set();
+    const letters = Array.from('abcdefghijklmnopqrstuvwxyz');
+    const unavailLetters = new Set();
 
     let qmarkIndex = riddle.indexOf('?');
     while (qmarkIndex >= 0) {
@@ -8,17 +8,17 @@ function solution(riddle) {
         part2 = riddle.substring(qmarkIndex + 1);
 
         if (part1.length > 0)
-            unavailableSet.add(part1[part1.length - 1]);
+            unavailLetters.add(part1[part1.length - 1]);
         if (part2.length > 0)
-            unavailableSet.add(part2[0]);
+            unavailLetters.add(part2[0]);
 
-        let availableLetterIndex = 0;
-        while (availableLetterIndex < letters.length &&
-            unavailableSet.has(letters[availableLetterIndex])) availableLetterIndex++;       
+        let availLetterIndex = 0;
+        while (availLetterIndex < letters.length &&
+            unavailLetters.has(letters[availLetterIndex])) availLetterIndex++;       
 
-        riddle = part1 + letters[availableLetterIndex] + part2;
+        riddle = part1 + letters[availLetterIndex] + part2;
 
-        unavailableSet.clear();
+        unavailLetters.clear();
         qmarkIndex = riddle.indexOf('?');
     }
     return riddle;
